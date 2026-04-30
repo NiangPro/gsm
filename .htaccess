@@ -1,0 +1,23 @@
+# Autoriser l'accès direct aux fichiers PHP spécifiques
+<Files "checkout-process.php">
+    Require all granted
+</Files>
+
+<Files "fix_orders_table.php">
+    Require all granted
+</Files>
+
+<Files "test-checkout.php">
+    Require all granted
+</Files>
+
+# Réécriture d'URL pour le routing
+RewriteEngine On
+RewriteBase /gsm/
+
+# Ne pas réécrire les fichiers et répertoires existants
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Router vers index.php
+RewriteRule ^(.*)$ index.php [L]
