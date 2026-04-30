@@ -1,4 +1,12 @@
 <?php
+// Inclure la configuration
+require_once __DIR__ . '/../includes/config.php';
+
+// Démarrer la session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $error = '';
 $currentPage = 'admin';
 

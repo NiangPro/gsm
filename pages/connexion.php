@@ -4,25 +4,31 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
-    
+
     if (empty($email) || empty($password)) {
         $error = 'Veuillez remplir tous les champs.';
     } else {
+        // Vérifier d'abord si c'est l'admin
+        if ($email === 'admin@sokhnamai.sn' && $password === 'admin123') {
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_email'] = $email;
+            echo '<script>window.location.href = "?page=admin&action=dashboard";</script>';
+            echo '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-emerald-600 text-2xl"></i><p class="mt-2 text-gray-600">Connexion en cours...</p></div>';
+            exit;
+        }
+
+        // Sinon, vérifier si c'est un client
         $pdo = getDB();
         if ($pdo) {
             try {
-                // Rechercher le client par email
                 $stmt = $pdo->prepare("SELECT * FROM customers WHERE email = ? AND is_active = TRUE");
                 $stmt->execute([$email]);
                 $customer = $stmt->fetch();
-                
+
                 if ($customer && password_verify($password, $customer['password_hash'])) {
-                    // Connexion réussie
                     $_SESSION['user_id'] = $customer['id'];
                     $_SESSION['user_name'] = $customer['name'];
                     $_SESSION['user_email'] = $customer['email'];
-                    
-                    // Rediriger vers l'espace client avec JavaScript (car header() ne fonctionne pas après output)
                     echo '<script>window.location.href = "?page=espace-client";</script>';
                     echo '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-emerald-600 text-2xl"></i><p class="mt-2 text-gray-600">Connexion en cours...</p></div>';
                     exit;

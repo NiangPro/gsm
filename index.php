@@ -4,18 +4,24 @@ require_once __DIR__ . '/includes/config.php';
 // Router
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
+// Alias pour espace-admin -> admin
+if ($page === 'espace-admin') {
+    $page = 'admin';
+}
+
 // Admin routes
 if ($page === 'admin') {
     $action = isset($_GET['action']) ? $_GET['action'] : 'login';
-    
+
     if ($action === 'logout') {
         session_destroy();
-        header('Location: ?page=admin');
+        echo '<script>window.location.href = "?page=connexion";</script>';
         exit;
     }
-    
+
     if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-        include __DIR__ . '/admin/login.php';
+        // Rediriger vers la page de connexion unique
+        echo '<script>window.location.href = "?page=connexion";</script>';
         exit;
     }
     

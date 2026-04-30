@@ -141,7 +141,7 @@ if ($currentPage === 'a-propos') {
                         </div>
                     </a>
                     
-                    <a href="?page=admin" 
+                    <a href="?page=connexion"
                        class="flex items-center gap-1.5 px-2 py-1.5 text-xs bg-primary-600 text-white rounded hover:bg-primary-700 font-medium">
                         <i class="fas fa-lock text-xs"></i>
                     </a>
@@ -177,7 +177,7 @@ if ($currentPage === 'a-propos') {
                             Connexion / Inscription
                         </a>
                     <?php endif; ?>
-                    <a href="?page=admin" class="flex items-center gap-2 px-2 py-3 text-sm font-medium text-gray-600">
+                    <a href="?page=connexion" class="flex items-center gap-2 px-2 py-3 text-sm font-medium text-gray-600">
                         <i class="fas fa-lock"></i>
                         Administration
                     </a>
